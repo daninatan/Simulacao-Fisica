@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://cswar8n2sasb3"]
+
+[ext_resource type="Script" uid="uid://k1raf4osuc3i" path="res://GravitationalBody.gd" id="1_hbvo3"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_hp4wh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfb7d"]
+emission_enabled = true
+emission = Color(1, 0.833252, 0.148976, 1)
+emission_energy_multiplier = 8.81
+
+[sub_resource type="Environment" id="Environment_hbvo3"]
+background_mode = 1
+background_color = Color(0.051971, 0.051971, 0.051971, 1)
+background_energy_multiplier = 1.85
+
+[sub_resource type="SphereMesh" id="SphereMesh_auk15"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ms4l2"]
+vertex_color_is_srgb = true
+albedo_color = Color(0.152941, 0.407843, 0.811765, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hbvo3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hbvo3"]
+albedo_color = Color(1, 0.423529, 0.0823529, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tfb7d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auk15"]
+albedo_color = Color(0.581524, 0.669462, 0.686275, 1)
+
+[node name="SolarSystem" type="Node3D"]
+
+[node name="Sun" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("SphereMesh_hp4wh")
+surface_material_override/0 = SubResource("StandardMaterial3D_tfb7d")
+script = ExtResource("1_hbvo3")
+mass = 10000.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573577, -0.707107, -0.40558, 0.579228, 27.644, 16.5537, 25.3544)
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hbvo3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 1009.26
+omni_attenuation = -0.714
+
+[node name="Earth" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+mesh = SubResource("SphereMesh_auk15")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_ms4l2")
+script = ExtResource("1_hbvo3")
+central_body = NodePath("../Sun")
+
+[node name="Mars" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+mesh = SubResource("SphereMesh_hbvo3")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_hbvo3")
+script = ExtResource("1_hbvo3")
+mass = 0.1
+central_body = NodePath("../Sun")
+
+[node name="Moon" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 21, 0, 0)
+mesh = SubResource("SphereMesh_tfb7d")
+surface_material_override/0 = SubResource("StandardMaterial3D_auk15")
+script = ExtResource("1_hbvo3")
+mass = 0.01
+central_body = NodePath("../Sun")
