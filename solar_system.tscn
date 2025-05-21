@@ -1,18 +1,31 @@
-[gd_scene load_steps=11 format=3 uid="uid://cswar8n2sasb3"]
+[gd_scene load_steps=16 format=3 uid="uid://cswar8n2sasb3"]
 
-[ext_resource type="Script" uid="uid://k1raf4osuc3i" path="res://GravitationalBody.gd" id="1_hbvo3"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_hp4wh"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfb7d"]
-emission_enabled = true
-emission = Color(1, 0.833252, 0.148976, 1)
-emission_energy_multiplier = 8.81
+[ext_resource type="Script" uid="uid://bilkeagwg5egw" path="res://gravitational.gd" id="1_hbvo3"]
 
 [sub_resource type="Environment" id="Environment_hbvo3"]
 background_mode = 1
 background_color = Color(0.051971, 0.051971, 0.051971, 1)
 background_energy_multiplier = 1.85
+glow_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_tfb7d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auk15"]
+albedo_color = Color(0.581524, 0.669462, 0.686275, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ms4l2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swmsm"]
+albedo_color = Color(1, 0.772549, 0.121569, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hp4wh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfb7d"]
+emission_enabled = true
+emission = Color(0.999999, 0.830931, 0.244381, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hbvo3"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_auk15"]
 
@@ -20,57 +33,82 @@ background_energy_multiplier = 1.85
 vertex_color_is_srgb = true
 albedo_color = Color(0.152941, 0.407843, 0.811765, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_hp4wh"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_hbvo3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hbvo3"]
 albedo_color = Color(1, 0.423529, 0.0823529, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_tfb7d"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auk15"]
-albedo_color = Color(0.581524, 0.669462, 0.686275, 1)
+[sub_resource type="SphereShape3D" id="SphereShape3D_tfb7d"]
 
 [node name="SolarSystem" type="Node3D"]
-
-[node name="Sun" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
-mesh = SubResource("SphereMesh_hp4wh")
-surface_material_override/0 = SubResource("StandardMaterial3D_tfb7d")
-script = ExtResource("1_hbvo3")
-mass = 10000.0
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573577, -0.707107, -0.40558, 0.579228, 27.644, 16.5537, 25.3544)
-current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_hbvo3")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-omni_range = 1009.26
-omni_attenuation = -0.714
+omni_range = 67.659
+omni_attenuation = -0.524
 
-[node name="Earth" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+[node name="Test" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_tfb7d")
+surface_material_override/0 = SubResource("StandardMaterial3D_auk15")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.2918, 26.0639, 0)
+current = true
+fov = 103.6
+
+[node name="Jupiter" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 40.574, -0.551892, -1.4111)
+visible = false
+mesh = SubResource("SphereMesh_ms4l2")
+surface_material_override/0 = SubResource("StandardMaterial3D_swmsm")
+
+[node name="Sun" type="RigidBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -13.5864, 0, 0)
+mass = 330000.0
+script = ExtResource("1_hbvo3")
+
+[node name="Sun_Mesh" type="MeshInstance3D" parent="Sun"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("SphereMesh_hp4wh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_tfb7d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sun"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("SphereShape3D_hbvo3")
+
+[node name="Earth" type="RigidBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -7.73934, 0, -6.80439)
+script = ExtResource("1_hbvo3")
+initial_velocity = Vector3(2, 0, 10)
+
+[node name="Earth_Mesh" type="MeshInstance3D" parent="Earth"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("SphereMesh_auk15")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_ms4l2")
-script = ExtResource("1_hbvo3")
-central_body = NodePath("../Sun")
 
-[node name="Mars" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Earth"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("SphereShape3D_hp4wh")
+
+[node name="Mars" type="RigidBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -27.0443, 0.350052, 3.44615)
+mass = 30.0
+script = ExtResource("1_hbvo3")
+initial_velocity = Vector3(0, 0, -1)
+
+[node name="Mars_Mesh" type="MeshInstance3D" parent="Mars"]
 mesh = SubResource("SphereMesh_hbvo3")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_hbvo3")
-script = ExtResource("1_hbvo3")
-mass = 0.1
-central_body = NodePath("../Sun")
 
-[node name="Moon" type="MeshInstance3D" parent="." groups=["gravity_bodies"]]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 21, 0, 0)
-mesh = SubResource("SphereMesh_tfb7d")
-surface_material_override/0 = SubResource("StandardMaterial3D_auk15")
-script = ExtResource("1_hbvo3")
-mass = 0.01
-central_body = NodePath("../Sun")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mars"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("SphereShape3D_tfb7d")
