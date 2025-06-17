@@ -5,7 +5,7 @@ const G = 3.0
 @export var initial_velocity: Vector3 = Vector3.ZERO 
 var bodies
 
-@export var log_interval: float = 1.0  # tempo entre logs (em segundos)
+@export var log_interval: float = 1.0 
 var log_file: FileAccess
 var time_accum: float = 0.0
 
@@ -39,13 +39,10 @@ func _physics_process(delta):
 	for vector in forces:
 		total_force += vector
 	
-	#print(self, "  x: ", str(global_position.x).pad_decimals(2), ", z: ", str(global_position.z).pad_decimals(2))
-	
 	apply_central_force(total_force)
 	
-	# Pega posição X e Y (ou Z se for 3D, como desejar)
 	var x = global_position.x
-	var y = global_position.z  # ou .y dependendo do plano de interesse
+	var y = global_position.z  
 
 	var line = "%f,%f" % [x, y]
 	log_file.store_line(line)
