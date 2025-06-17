@@ -1,11 +1,20 @@
 extends RigidBody3D
 
-const G = 1.0
+const G = 3.0
 
 @export var initial_velocity: Vector3 = Vector3.ZERO 
 var bodies
 
+@export var log_interval: float = 1.0  # tempo entre logs (em segundos)
+var log_file: FileAccess
+var time_accum: float = 0.0
+
 func _ready():
+	var path = "user://posicoesp1SegundaIteracao.txt"
+	log_file = FileAccess.open(path, FileAccess.WRITE)
+	if not log_file:
+		push_error("Não foi possível abrir o arquivo para escrita.")
+		return
 	linear_velocity = initial_velocity
 
 func _physics_process(delta):
@@ -30,7 +39,13 @@ func _physics_process(delta):
 	for vector in forces:
 		total_force += vector
 	
-	print(self, "  ", total_force)
-	apply_central_force(total_force)
-
+	#print(self, "  x: ", str(global_position.x).pad_decimals(2), ", z: ", str(global_position.z).pad_decimals(2))
 	
+	apply_central_force(total_force)
+	
+	# Pega posição X e Y (ou Z se for 3D, como desejar)
+	var x = global_position.x
+	var y = global_position.z  # ou .y dependendo do plano de interesse
+
+	var line = "%f,%f" % [x, y]
+	log_file.store_line(line)

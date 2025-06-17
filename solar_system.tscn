@@ -1,6 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cswar8n2sasb3"]
+[gd_scene load_steps=18 format=3 uid="uid://cswar8n2sasb3"]
 
-[ext_resource type="Script" uid="uid://bilkeagwg5egw" path="res://gravitational.gd" id="1_hbvo3"]
+[ext_resource type="Script" uid="uid://ctmbx03xwpoa7" path="res://sun.gd" id="1_hp4wh"]
+[ext_resource type="Script" uid="uid://f2mhqssm34f4" path="res://mars.gd" id="2_hp4wh"]
+[ext_resource type="Script" uid="uid://w3m25hv3bye5" path="res://earth.gd" id="2_tfb7d"]
 
 [sub_resource type="Environment" id="Environment_hbvo3"]
 background_mode = 1
@@ -66,8 +68,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_swmsm")
 
 [node name="Sun" type="RigidBody3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -13, 0, 0)
-mass = 1000.0
-script = ExtResource("1_hbvo3")
+mass = 100.0
+script = ExtResource("1_hp4wh")
+initial_velocity = Vector3(0.05, 0, 0)
 
 [node name="Sun_Mesh" type="MeshInstance3D" parent="Sun"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -86,9 +89,9 @@ omni_attenuation = -0.524
 
 [node name="Earth" type="RigidBody3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1.54782, 0, -1.84985)
-mass = 10.0
-script = ExtResource("1_hbvo3")
-initial_velocity = Vector3(-2, 0, 6)
+mass = 100.0
+script = ExtResource("2_tfb7d")
+initial_velocity = Vector3(-2, 0, -5)
 
 [node name="Earth_Mesh" type="MeshInstance3D" parent="Earth"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -101,10 +104,10 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 shape = SubResource("SphereShape3D_hp4wh")
 
 [node name="Mars" type="RigidBody3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -32.6972, 0.350052, 3.44615)
-mass = 10.0
-script = ExtResource("1_hbvo3")
-initial_velocity = Vector3(5, 0, -5)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -30.697, 0, 3.546)
+mass = 100.0
+script = ExtResource("2_hp4wh")
+initial_velocity = Vector3(5, 0, 2)
 
 [node name="Mars_Mesh" type="MeshInstance3D" parent="Mars"]
 mesh = SubResource("SphereMesh_hbvo3")
